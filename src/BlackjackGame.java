@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BlackjackGame {
     private Deck deck;
@@ -61,20 +63,26 @@ public class BlackjackGame {
         dealerPanel.add(dealerInfoPanel, BorderLayout.SOUTH);
 
         hitButton = new JButton("Hit");
-        hitButton.addActionListener(_ -> {
-            playerHand.addCard(deck.drawCard());
-            updateGUI();
-            if (playerHand.calculateScore() > 21) {
-                hitButton.setEnabled(false);
-                dealerTurn();
-                determineWinner();
+        hitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playerHand.addCard(deck.drawCard());
+                updateGUI();
+                if (playerHand.calculateScore() > 21) {
+                    hitButton.setEnabled(false);
+                    dealerTurn();
+                    determineWinner();
+                }
             }
         });
 
         standButton = new JButton("Stand");
-        standButton.addActionListener(_ -> {
-            dealerTurn();
-            determineWinner();
+        standButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dealerTurn();
+                determineWinner();
+            }
         });
 
         JPanel buttonPanel = new JPanel();
